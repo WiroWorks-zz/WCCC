@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Wiro's Custom Car Creator</title>
+        <meta charset="utf-8">
+
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Karla:wght@300;400;600&display=swap" rel="stylesheet">
+
+        <link href="https://fonts.googleapis.com/css2?family=Cookie&display=swap" rel="stylesheet">
+
+        <link href="main.css" rel="stylesheet" type="text/css">
+
+        <script src="nui://game/ui/jquery.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <div id="Main-Body">
+            <div id="forms">
+                <form>
+                    <a href="#" class="close"></a>
+                    <label><b>Model</b></label><br>
+                    <input type="text" class="text-input" id="model" placeholder="Aracın İsmi" value="zentorno">
+                    <label><b>Renk</b></label><br>
+                    <input type="text" class="text-input" id="color" placeholder="Aracın Rengi" value="Black">
+                    <label><b>Benzin</b></label><br>
+                    <input type="text" class="text-input" id="fuel" placeholder="Aracın Benzin Seviyesi" value="100">
+                    <label><b>Motor Canı</b></label><br>
+                    <input type="text" class="text-input" id="engine-health" placeholder="(Min -4000, Max 1000)" value="1000">
+                    <label><b>Model Canı</b></label><br>
+                    <input type="text" class="text-input" id="body-health" placeholder="(Min 0,Max 1000)" value="1000">
+                    <label><b>Lastik Canı</b></label><br>
+                    <input type="text" class="text-input" id="wheel-health" placeholder="(Min 0,Max 1000)" value="1000">
+                    <label><b>Plaka</b></label><br>
+                    <input type="text" class="text-input" id="plate" placeholder="Aracın Plakası" value="WIR0">
+                    <table>
+                        <tr>
+                            <td class="test"><input id="autodel" class="checkboxs" type="checkbox" checked/></td>
+                            <td class="test"><input id="locked" class="checkboxs" type="checkbox" checked/></td>
+                            <td class="test"><input id="incible" class="checkboxs" type="checkbox" checked/></td>
+                            <td class="test"><input id="upgrade" class="checkboxs" type="checkbox" checked/></td>
+                        </tr>
+                        <tr>
+                            <td><label>Oto Sil</label></td>
+                            <td><label>Kilitli</label></td>
+                            <td><label>Hasar Almaz</label></td>
+                            <td><label>Full Upgrated</label></td>
+                        </tr>
+                    </table>
+                    <div id="btn"><span class="noselect">Onayla</span><div id="circle"></div></div>
+                </form>
+            </div>
+        </div>
+        <script src="jquery.js"></script>
+        <script src="index.js" type="text/javascript"></script>
+        <script>
+            $(function () {
+
+function display(bool) {
+    if (bool) {
+        $("body").show();
+    } else {
+        $("body").hide();
+    } 
+}
+
+display(false)
+
+
+window.addEventListener("message", function(event) {
+    if (event.data.status == true) {
+        display(true)
+    } else {
+        display(false)
+    }
+})
+
+document.onkeyup = function (data) {
+    if (data.which == 27) {
+        $.post("http://WCCC/exit" , JSON.stringify({}));
+        return;
+    }
+}
+
+$(".close").click(function() {
+    $.post("http://WCCC/exit" , JSON.stringify({}));
+    return;
+})
+
+$("#btn").click(function() {
+    let model = $("#model").val()
+    let color = $("#color").val()
+    let fuel = parseFloat($("#fuel").val())
+    let health = parseFloat($("#engine-health").val())
+    let body = parseFloat($("#body-health").val())
+    let plate = $("#plate").val()
+    let wheelHealth = parseFloat($("#wheel-health").val())
+    let autoDel = $("#autodel").is( ":checked" ) 
+    let locked = $("#locked").is( ":checked" ) 
+    let isIncible = $("#incible").is( ":checked")
+    let upgrade = $("#upgrade").is( ":checked" )
+
+    $.post("https://WCCC/car", JSON.stringify({
+        car: model,
+        color: color,
+        fuel: fuel,
+        health: health,
+        bodyhealth: body,
+        wheelHealth: wheelHealth,
+        plate: plate,
+        locked: locked,
+        autodel: autoDel,
+        isIncible: isIncible,
+        upgrade: upgrade
+    }));
+    return;
+});
+
+})
+        </script>
+    </body>
+</html>
