@@ -59,7 +59,7 @@ function WCCC(model, colorPrimary, fuel, engineHealth, bodyHealth, wheelHealth, 
         SetVehicleNumberPlateText(vehicle, plate)
         SetVehicleDoorsLockedForAllPlayers(vehicle, locked)
 
-        SetEntityInvincible(vehicle, true)
+        SetEntityInvincible(vehicle, isIncible)
 
         SetVehicleCanBeVisiblyDamaged(vehicle, isIncible)
         SetVehicleCanEngineOperateOnFire(vehicle, not isIncible)
